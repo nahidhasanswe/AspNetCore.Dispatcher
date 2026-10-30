@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AspNetCore.Dispatcher/AspNetCore.Dispatcher.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AspNetCore.Dispatcher.Tests/AspNetCore.Dispatcher.Tests.csproj" />
+  </Folder>
+</Solution>
