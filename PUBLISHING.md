@@ -41,14 +41,14 @@ a policy:
 
 | Field | Value |
 |---|---|
-| Policy name | `AspNetCore.Dispatcher release` |
+| Policy name | `AspNet.Core.Dispatcher release` |
 | Package owner | your individual account |
 | Repository Owner | `nahidhasanswe` |
 | Repository | `AspNetCore.Dispatcher` |
 | Workflow File | `release.yml` |
 | Environment | *leave empty* |
 | Scopes | **Push new packages and package versions** |
-| Glob pattern | `AspNetCore.Dispatcher*` |
+| Glob pattern | `AspNet.Core.Dispatcher*` |
 
 Three details decide whether this works:
 
@@ -84,7 +84,7 @@ Version lives in `src/AspNetCore.Dispatcher/AspNetCore.Dispatcher.csproj`:
 
 ```xml
 <VersionPrefix>1.0.0</VersionPrefix>
-<VersionSuffix>preview.2</VersionSuffix>
+<VersionSuffix>preview.1</VersionSuffix>
 ```
 
 | Release | `VersionPrefix` | `VersionSuffix` | Produces |
@@ -118,10 +118,10 @@ Inspect what you are about to publish:
 
 ```shell
 # Contents — expect lib/netstandard2.0, lib/net8.0, lib/net9.0, README.md, LICENSE
-unzip -l ./artifacts/AspNetCore.Dispatcher.1.0.0-preview.2.nupkg
+unzip -l ./artifacts/AspNet.Core.Dispatcher.1.0.0-preview.1.nupkg
 
 # Metadata
-unzip -p ./artifacts/AspNetCore.Dispatcher.1.0.0-preview.2.nupkg AspNetCore.Dispatcher.nuspec
+unzip -p ./artifacts/AspNet.Core.Dispatcher.1.0.0-preview.1.nupkg AspNet.Core.Dispatcher.nuspec
 ```
 
 Checklist before pushing — a published version can never be replaced:
@@ -139,8 +139,8 @@ Checklist before pushing — a published version can never be replaced:
 ### 4. Tag and push
 
 ```shell
-git tag v1.0.0-preview.2
-git push origin v1.0.0-preview.2
+git tag v1.0.0-preview.1
+git push origin v1.0.0-preview.1
 ```
 
 The tag triggers `.github/workflows/release.yml`, which verifies the tag against the project
@@ -159,12 +159,12 @@ way under **Manage Packages**.
 ### 5. Confirm
 
 The package appears at
-`https://www.nuget.org/packages/AspNetCore.Dispatcher` within a few minutes, and becomes
+`https://www.nuget.org/packages/AspNet.Core.Dispatcher` within a few minutes, and becomes
 installable once indexing finishes — usually under 15 minutes, occasionally up to an hour.
 
 ```shell
 dotnet new console -o /tmp/smoke && cd /tmp/smoke
-dotnet add package AspNetCore.Dispatcher --prerelease
+dotnet add package AspNet.Core.Dispatcher --prerelease
 ```
 
 ## Publishing by hand
@@ -174,7 +174,7 @@ so there is nothing to authenticate with locally. Publish through the workflow.
 
 If you are ever genuinely stuck (Actions outage, say), the escape hatch is a manual API key:
 [API keys](https://www.nuget.org/account/apikeys) → create one scoped to
-*Push new packages and package versions* with glob `AspNetCore.Dispatcher*`, set the shortest
+*Push new packages and package versions* with glob `AspNet.Core.Dispatcher*`, set the shortest
 expiry offered, push, then **delete the key immediately**.
 
 ```shell
@@ -182,7 +182,7 @@ dotnet pack src/AspNetCore.Dispatcher/AspNetCore.Dispatcher.csproj -c Release -o
 
 read -s NUGET_API_KEY && export NUGET_API_KEY   # keeps it out of your shell history
 
-dotnet nuget push "./artifacts/AspNetCore.Dispatcher.1.0.0-preview.2.nupkg" \
+dotnet nuget push "./artifacts/AspNet.Core.Dispatcher.1.0.0-preview.1.nupkg" \
   --api-key "$NUGET_API_KEY" \
   --source https://api.nuget.org/v3/index.json
 ```

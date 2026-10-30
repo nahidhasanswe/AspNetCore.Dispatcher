@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package identity">
-    <PackageId>AspNetCore.Dispatcher</PackageId>
+    <PackageId>AspNet.Core.Dispatcher</PackageId>
     <VersionPrefix>1.0.0</VersionPrefix>
-    <VersionSuffix>preview.2</VersionSuffix>
-    <Title>AspNetCore.Dispatcher</Title>
+    <VersionSuffix>preview.1</VersionSuffix>
+    <Title>AspNet.Core.Dispatcher</Title>
     <Authors>Nahid</Authors>
     <Company>Nahid</Company>
     <Copyright>Copyright (c) 2026 Nahid</Copyright>

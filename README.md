@@ -1,7 +1,7 @@
-# AspNetCore.Dispatcher
+# AspNet.Core.Dispatcher
 
-[![NuGet](https://img.shields.io/nuget/vpre/AspNetCore.Dispatcher.svg)](https://www.nuget.org/packages/AspNetCore.Dispatcher)
-[![Downloads](https://img.shields.io/nuget/dt/AspNetCore.Dispatcher.svg)](https://www.nuget.org/packages/AspNetCore.Dispatcher)
+[![NuGet](https://img.shields.io/nuget/vpre/AspNet.Core.Dispatcher.svg)](https://www.nuget.org/packages/AspNet.Core.Dispatcher)
+[![Downloads](https://img.shields.io/nuget/dt/AspNet.Core.Dispatcher.svg)](https://www.nuget.org/packages/AspNet.Core.Dispatcher)
 [![Build](https://img.shields.io/github/actions/workflow/status/nahidhasanswe/AspNetCore.Dispatcher/ci.yml?branch=main)](https://github.com/nahidhasanswe/AspNetCore.Dispatcher/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nahidhasanswe/AspNetCore.Dispatcher/blob/main/LICENSE)
 
@@ -21,7 +21,7 @@ If you know MediatR, you already know this library — the API surface is the sa
 ## Install
 
 ```shell
-dotnet add package AspNetCore.Dispatcher --prerelease
+dotnet add package AspNet.Core.Dispatcher --prerelease
 ```
 
 ## Quick start

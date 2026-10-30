@@ -145,7 +145,7 @@ repository root:
 ```shell
 # 1. Swap the package
 dotnet remove package MediatR
-dotnet add package AspNetCore.Dispatcher --prerelease
+dotnet add package AspNet.Core.Dispatcher --prerelease
 
 # 2. Namespaces
 grep -rl "using MediatR" --include=*.cs . | xargs sed -i 's/using MediatR.Pipeline;/using AspNetCore.Dispatcher.Pipeline;/g'
@@ -185,5 +185,5 @@ move one feature at a time. Watch for two things:
 
 - **MediatR's commercial licence terms.** This package is MIT.
 - **`MediatR.Contracts`.** The contracts live in the main package here. If you split messages into
-  a contracts-only assembly, reference `AspNetCore.Dispatcher` from it — the package is small and
+  a contracts-only assembly, reference `AspNet.Core.Dispatcher` from it — the package is small and
   has one dependency.
