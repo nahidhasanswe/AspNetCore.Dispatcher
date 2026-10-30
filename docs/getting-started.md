@@ -9,7 +9,7 @@ dotnet add package AspNetCore.Dispatcher --prerelease
 Or in the project file:
 
 ```xml
-<PackageReference Include="AspNetCore.Dispatcher" Version="1.0.0-preview.1" />
+<PackageReference Include="AspNetCore.Dispatcher" Version="1.0.0-preview.2" />
 ```
 
 The package targets `netstandard2.0`, `net8.0` and `net9.0`, so it works on modern .NET and on

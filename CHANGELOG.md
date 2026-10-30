@@ -7,10 +7,14 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [1.0.0-preview.1] - 2026-10-30
+## [1.0.0-preview.2] - 2026-10-30
 
 First public preview. The API is complete; the prerelease label is there so it can still change in
 response to feedback before `1.0.0`.
+
+> `1.0.0-preview.1` was claimed on nuget.org but never became installable, and a claimed version can
+> never be reused, so this is the first release you can actually reference. Nothing differs between
+> the two beyond the version number.
 
 ### Added
 
@@ -80,5 +84,5 @@ response to feedback before `1.0.0`.
 - Trimming and Native AOT are not supported; see
   [docs/architecture.md](docs/architecture.md#trimming-and-native-aot).
 
-[Unreleased]: https://github.com/nahidhasanswe/AspNetCore.Dispatcher/compare/v1.0.0-preview.1...HEAD
-[1.0.0-preview.1]: https://github.com/nahidhasanswe/AspNetCore.Dispatcher/releases/tag/v1.0.0-preview.1
+[Unreleased]: https://github.com/nahidhasanswe/AspNetCore.Dispatcher/compare/v1.0.0-preview.2...HEAD
+[1.0.0-preview.2]: https://github.com/nahidhasanswe/AspNetCore.Dispatcher/releases/tag/v1.0.0-preview.2

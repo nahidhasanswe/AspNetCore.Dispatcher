@@ -54,8 +54,8 @@ Three details decide whether this works:
 
 - **Workflow File is the file name only.** Enter `release.yml`, never
   `.github/workflows/release.yml`. This is the most common reason a policy fails to match.
-- **The scope must allow new packages.** `AspNetCore.Dispatcher` does not exist on nuget.org yet, so
-  a policy scoped only to new *versions* cannot make the first publish.
+- **The scope must allow new packages.** Until the first version is live on nuget.org, a policy
+  scoped only to new *versions* cannot publish anything.
 - **Leave Environment empty.** The release job does not use a GitHub environment, and a policy that
   requires one will not match.
 
@@ -84,12 +84,12 @@ Version lives in `src/AspNetCore.Dispatcher/AspNetCore.Dispatcher.csproj`:
 
 ```xml
 <VersionPrefix>1.0.0</VersionPrefix>
-<VersionSuffix>preview.1</VersionSuffix>
+<VersionSuffix>preview.2</VersionSuffix>
 ```
 
 | Release | `VersionPrefix` | `VersionSuffix` | Produces |
 |---|---|---|---|
-| Preview | `1.0.0` | `preview.2` | `1.0.0-preview.2` |
+| Preview | `1.0.0` | `preview.3` | `1.0.0-preview.3` |
 | Release candidate | `1.0.0` | `rc.1` | `1.0.0-rc.1` |
 | Stable | `1.0.0` | *(empty)* | `1.0.0` |
 | Patch | `1.0.1` | *(empty)* | `1.0.1` |
@@ -118,10 +118,10 @@ Inspect what you are about to publish:
 
 ```shell
 # Contents — expect lib/netstandard2.0, lib/net8.0, lib/net9.0, README.md, LICENSE
-unzip -l ./artifacts/AspNetCore.Dispatcher.1.0.0-preview.1.nupkg
+unzip -l ./artifacts/AspNetCore.Dispatcher.1.0.0-preview.2.nupkg
 
 # Metadata
-unzip -p ./artifacts/AspNetCore.Dispatcher.1.0.0-preview.1.nupkg AspNetCore.Dispatcher.nuspec
+unzip -p ./artifacts/AspNetCore.Dispatcher.1.0.0-preview.2.nupkg AspNetCore.Dispatcher.nuspec
 ```
 
 Checklist before pushing — a published version can never be replaced:
@@ -139,8 +139,8 @@ Checklist before pushing — a published version can never be replaced:
 ### 4. Tag and push
 
 ```shell
-git tag v1.0.0-preview.1
-git push origin v1.0.0-preview.1
+git tag v1.0.0-preview.2
+git push origin v1.0.0-preview.2
 ```
 
 The tag triggers `.github/workflows/release.yml`, which verifies the tag against the project
@@ -182,13 +182,15 @@ dotnet pack src/AspNetCore.Dispatcher/AspNetCore.Dispatcher.csproj -c Release -o
 
 read -s NUGET_API_KEY && export NUGET_API_KEY   # keeps it out of your shell history
 
-dotnet nuget push "./artifacts/AspNetCore.Dispatcher.1.0.0-preview.1.nupkg" \
+dotnet nuget push "./artifacts/AspNetCore.Dispatcher.1.0.0-preview.2.nupkg" \
   --api-key "$NUGET_API_KEY" \
   --source https://api.nuget.org/v3/index.json
 ```
 
 `dotnet nuget push` pushes the matching `.snupkg` automatically when it sits beside the `.nupkg`.
-Add `--skip-duplicate` in scripts that might run twice.
+
+Resist `--skip-duplicate` here, for the same reason the workflow does not use it: it reports success
+when the version was already claimed and nothing was uploaded.
 
 Do not store such a key as a repository secret — that would undo the point of the policy.
 
