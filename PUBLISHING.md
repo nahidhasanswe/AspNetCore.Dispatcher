@@ -147,8 +147,14 @@ The tag triggers `.github/workflows/release.yml`, which verifies the tag against
 version, builds, tests, packs, exchanges an OIDC token for a one-hour nuget.org key, pushes, and
 opens a GitHub release.
 
-Re-running the workflow for the same tag is safe: `--skip-duplicate` turns a repeat push of an
-existing version into a no-op rather than a failure.
+The push is strict on purpose. If nuget.org already has that version the run **fails**, because a
+release that published nothing must not report success. Versions are immutable once claimed, so the
+fix is always to bump the version and tag again — never to re-run the release.
+
+A version can be claimed without being visible: nuget.org holds a newly pushed package in
+*Validating* for a few minutes, during which the public package page and search both return nothing
+while a second push of it is already rejected as a duplicate. Your own packages are listed either
+way under **Manage Packages**.
 
 ### 5. Confirm
 
@@ -249,7 +255,8 @@ Optional, and a visible improvement on the nuget.org listing. Add a 128×128 PNG
 | Policy shows as inactive | The 7-day pending window lapsed before a successful run (private repositories only). Restart it from the Trusted Publishing page and re-run. |
 | Push fails after a long job | The temporary key expired; it is valid for one hour. Keep the login step immediately before the push. |
 | `429` from the login step | nuget.org issues at most one key per 30 seconds per user. Wait and re-run. |
-| `409 Conflict` on push | That version already exists. Bump the version; published versions are immutable. |
+| `409 Conflict` / "already exists" on push | That version is already claimed — including by a package still validating, or one later unlisted or deleted. The run fails on purpose: nothing was published. Bump the version and tag again. |
+| Workflow green but the package is nowhere on nuget.org | It is probably still *Validating* — the public page and search stay empty for a few minutes after a push. Check **Manage Packages** on your account, which shows it immediately. |
 | Package installs but the README is blank on nuget.org | `README.md` was not packed, or `PackageReadmeFile` does not match the packed path. |
 | Images missing from the README on nuget.org | nuget.org only renders images from allow-listed hosts. `img.shields.io` and `raw.githubusercontent.com` are fine. |
 | Symbols not resolving in a debugger | The `.snupkg` was not pushed, or the consumer has not enabled the NuGet symbol server. |

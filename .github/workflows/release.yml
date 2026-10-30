@@ -74,13 +74,25 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
+      # Deliberately not --skip-duplicate. For a release keyed to an immutable version, a
+      # duplicate means this run published nothing, which must fail loudly rather than
+      # pass as a green check.
       - name: Push to nuget.org
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          dotnet nuget push "./artifacts/*.nupkg" \
+          set +e
+          output=$(dotnet nuget push "./artifacts/*.nupkg" \
             --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
-            --source https://api.nuget.org/v3/index.json \
-            --skip-duplicate
+            --source https://api.nuget.org/v3/index.json 2>&1)
+          status=$?
+          echo "$output"
+
+          if echo "$output" | grep -qi "already exists"; then
+            echo "::error::nuget.org already has ${{ steps.version.outputs.version }}, so nothing was published by this run. Versions are immutable once claimed — bump the version and tag again instead of re-running this release. If you expected this version to be yours already, check nuget.org -> Manage Packages; a version still validating is claimed but not yet indexed."
+            exit 1
+          fi
+
+          exit $status
 
       - name: Create the GitHub release
         if: startsWith(github.ref, 'refs/tags/')
